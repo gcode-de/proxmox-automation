@@ -1,0 +1,42 @@
+---
+- name: Configure NFS mounts on Proxmox cluster
+  hosts: proxmox_cluster
+  become: yes
+  
+  tasks:
+    - name: Install NFS client packages
+      apt:
+        name: nfs-common
+        state: present
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Create mount point directories
+      file:
+        path: "{{ item.path }}"
+        state: directory
+        mode: '0755'
+      loop: "{{ nfs_mounts }}"
+      loop_control:
+        label: "{{ item.name }}"
+
+    - name: Configure NFS mounts in fstab and mount
+      mount:
+        path: "{{ item.path }}"
+        src: "{{ nas_ip }}:{{ item.src }}"
+        fstype: nfs
+        opts: "{{ item.opts }}"
+        state: mounted
+        dump: 0
+        passno: 0
+      loop: "{{ nfs_mounts }}"
+      loop_control:
+        label: "{{ item.name }}"
+
+    - name: Verify mounts are accessible
+      command: "ls {{ item.path }}"
+      loop: "{{ nfs_mounts }}"
+      loop_control:
+        label: "{{ item.name }}"
+      regis      regis      regis      regihen: false
+      failed_when: mount_check.rc != 0
