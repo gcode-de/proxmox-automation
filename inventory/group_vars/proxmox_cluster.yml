@@ -4,37 +4,17 @@ nas_ip: "192.168.68.126"
 
 # NFS Mount Points
 nfs_mounts:
-  - name: "audio"
-    src: "/volume1/Privat/AUDIO"
-    path: "/mnt/nas/audio"
+  - name: "Privat"
+    src: "/volume1/Privat"
+    path: "/mnt/nas/Privat"
     opts: "defaults,_netdev,noatime"
-  
-  - name: "musik"
-    src: "/volume1/Privat/MUSIK"
-    path: "/mnt/nas/musik"
-    opts: "defaults,_netdev,noatime"
-  
-  - name: "filme"
-    src: "/volume1/Filme"
-    path: "/mnt/nas/filme"
-    opts: "defaults,_netdev,noatime,ro"  # ro = read-only
-  
-  - name: "serien"
-    src: "/volume1/Serien"
-    path: "/mnt/nas/serien"
-    opts: "defaults,_netdev,noatime,ro"
-  
-  - name: "fotos-backup"
-    src: "/volume1/Backup/zzPrivat"
-    path: "/mnt/nas/fotos-backup"
-    opts: "defaults,_netdev,noatime"
-  
-  - name: "homes"
+
+  - name: "scans"
     src: "/volume1/homes"
     path: "/mnt/nas/homes"
     opts: "defaults,_netdev,noatime"
-  
+
   - name: "docker"
     src: "/volume2/Docker"
-    path: "/mnt/nas/docker"
+    path: "/mnt/nas/Docker"
     opts: "defaults,_netdev,noatime"

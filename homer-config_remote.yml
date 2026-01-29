@@ -1,0 +1,128 @@
+---
+# Homepage configuration
+# See https://fontawesome.com/search for icons options
+
+title: "SG Homelab"
+subtitle: "Services Übersicht"
+logo: "logo.png"
+# icon: "fas fa-skull-crossbones" # Optional icon
+
+header: true
+footer: false
+
+# Optional theme customization
+theme: walkxcode
+
+# Optional theme customization (color overrrides)
+# overrrides can also be done using CSS vars
+colors:
+  light:
+    highlight-primary: "#3367d6"
+    highlight-secondary: "#4285f4"
+    highlight-hover: "#5a95f5"
+    background: "#f5f5f5"
+    card-background: "#ffffff"
+    text: "#363636"
+    text-header: "#ffffff"
+    text-title: "#303030"
+    text-subtitle: "#424242"
+    card-shadow: rgba(0, 0, 0, 0.1)
+    link: "#3273dc"
+    link-hover: "#363636"
+  dark:
+    highlight-primary: "#3367d6"
+    highlight-secondary: "#4285f4"
+    highlight-hover: "#5a95f5"
+    background: "#131313"
+    card-background: "#2b2b2b"
+    text: "#eaeaea"
+    text-header: "#ffffff"
+    text-title: "#fafafa"
+    text-subtitle: "#f5f5f5"
+    card-shadow: rgba(0, 0, 0, 0.4)
+    link: "#3273dc"
+    link-hover: "#ffdd57"
+
+services:
+  - name: "Medien"
+    icon: "fas fa-circle-play"
+    items:
+      - name: "Jellyfin"
+        icon: "fa-solid fa-film"
+        subtitle: "Filme + Serien"
+        url: "https://prime.samuelgesang.de"
+        target: "_blank"
+      - name: "Immich"
+        icon: "fa-solid fa-image"
+        subtitle: "Fotos"
+        url: "https://pics.samuelgesang.de"
+        target: "_blank"
+      - name: "Audiobookshelf"
+        icon: "fa-solid fa-headphones"
+        subtitle: "Hörbücher + Hörspiele"
+        url: "https://audiobookshelf.samuelgesang.de"
+        target: "_blank"
+      - name: "Navidrome"
+        icon: "fa-solid fa-music"
+        subtitle: "Musik"
+        url: "https://music.samuelgesang.de"
+        target: "_blank"
+      - name: "Kavita"
+        icon: "fa-solid fa-book"
+        subtitle: "eBooks"
+        url: "https://kavita.samuelgesang.de"
+        target: "_blank"
+      - name: "Lazylibrarian"
+        icon: "fa-solid fa-book-open"
+        subtitle: "eBooks + Hörbücher"
+        url: "https://lazylibrarian.samuelgesang.de"
+        target: "_blank"
+  - name: "Tools"
+    icon: "fas fa-toolbox"
+    items:
+      - name: "Uptime Kuma"
+        icon: "fa-solid fa-heart-pulse"
+        subtitle: "Monitoring + Alerts"
+        url: "https://uptime.samuelgesang.de"
+        target: "_blank"
+      - name: "Authelia"
+        icon: "fa-solid fa-file-shield"
+        subtitle: "Authentifizierungsportal"
+        url: "https://auth.samuelgesang.de"
+        target: "_blank"
+      - name: "MeTube"
+        icon: "fa-brands fa-youtube"
+        subtitle: "Youtube Downloader"
+        url: "https://metube.samuelgesang.de"
+        target: "_blank"
+      - name: "Home Assistant"
+        icon: "fa-solid fa-house-signal"
+        subtitle: "Smart Home Steuerung"
+        url: "https://ha.samuelgesang.de"
+        target: "_blank"
+  - name: "Proxmox"
+    icon: "fas fa-server"
+    items:
+      - name: "Pulse"
+        icon: "fas fa-tachometer-alt"
+        subtitle: "Monitoring Dashboard"
+        url: "https://pulse.samuelgesang.de"
+        target: "_blank"
+  - name: "Kubernetes"
+    icon: "fas  fa-cubes"
+    items:
+      - name: "ArgoCD"
+        icon: "fa-solid fa-code-branch"
+        subtitle: "GitOps"
+        url: "https://argocd.samuelgesang.de"
+        target: "_blank"
+      - name: "Portainer"
+        icon: "fa-solid fa-docker"
+        subtitle: "Container Management"
+        url: "https://portainer.samuelgesang.de"
+        target: "_blank"
+      - name: "Grafana"
+        icon: "fa-solid fa-dashboard"
+        subtitle: "Monitoring Dashboards"
+        url: "https://grafana.samuelgesang.de"
+        target: "_blank"

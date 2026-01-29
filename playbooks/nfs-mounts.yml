@@ -1,8 +1,7 @@
----
 - name: Configure NFS mounts on Proxmox cluster
   hosts: proxmox_cluster
   become: yes
-  
+
   tasks:
     - name: Install NFS client packages
       apt:
@@ -15,7 +14,7 @@
       file:
         path: "{{ item.path }}"
         state: directory
-        mode: '0755'
+        mode: "0755"
       loop: "{{ nfs_mounts }}"
       loop_control:
         label: "{{ item.name }}"
@@ -38,5 +37,6 @@
       loop: "{{ nfs_mounts }}"
       loop_control:
         label: "{{ item.name }}"
-      regis      regis      regis      regihen: false
+      register: mount_check
+      changed_when: false
       failed_when: mount_check.rc != 0
