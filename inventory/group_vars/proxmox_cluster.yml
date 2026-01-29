@@ -10,8 +10,8 @@ nfs_mounts:
     opts: "defaults,_netdev,noatime"
 
   - name: "scans"
-    src: "/volume1/homes"
-    path: "/mnt/nas/homes"
+    src: "/volume1/scans"
+    path: "/mnt/nas/scans"
     opts: "defaults,_netdev,noatime"
 
   - name: "docker"
