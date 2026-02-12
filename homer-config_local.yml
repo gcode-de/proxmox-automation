@@ -159,7 +159,7 @@ services:
         url: "https://argocd.homelab.local"
         target: "_blank"
       - name: "Portainer"
-        icon: "fa-solid fa-docker"
+        icon: "fa-brands fa-docker"
         subtitle: "Container Management"
         url: "https://portainer.homelab.local"
         target: "_blank"
