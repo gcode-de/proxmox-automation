@@ -122,6 +122,11 @@ services:
         subtitle: "Low-code Automation Platform"
         url: "http://192.168.68.193:5678"
         target: "_blank"
+      - name: "kvm"
+        icon: "fa-solid fa-computer-mouse"
+        subtitle: "KVM over IP"
+        url: "http://192.168.68.105"
+        target: "_blank"
   - name: "Proxmox"
     icon: "fas fa-server"
     items:
