@@ -74,6 +74,11 @@ services:
         subtitle: "eBooks + Hörbücher"
         url: "https://lazylibrarian.samuelgesang.de"
         target: "_blank"
+      - name: "PizzA"
+        icon: "fa-solid fa-pizza-slice"
+        subtitle: "Podman-App"
+        url: "http://pizza.samuelgesang.de"
+        target: "_blank"
   - name: "Tools"
     icon: "fas fa-toolbox"
     items:
