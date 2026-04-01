@@ -79,6 +79,11 @@ services:
         subtitle: "Podman-App"
         url: "http://pizza.samuelgesang.de"
         target: "_blank"
+      - name: "Lychee Galerie"
+        icon: "fa-regular fa-images"
+        subtitle: "Image Galerie"
+        url: "http://galerie.samuelgesang.de"
+        target: "_blank"
   - name: "Tools"
     icon: "fas fa-toolbox"
     items:

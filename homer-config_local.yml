@@ -79,6 +79,11 @@ services:
         subtitle: "Podman-App"
         url: "http://192.168.68.194:8080"
         target: "_blank"
+      - name: "Lychee Galerie"
+        icon: "fa-regular fa-images"
+        subtitle: "Image Galerie"
+        url: "http://192.168.68.195:8000"
+        target: "_blank"
   - name: "Tools"
     icon: "fas fa-toolbox"
     items:
