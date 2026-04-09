@@ -102,6 +102,11 @@ services:
         subtitle: "Smart Home Steuerung"
         url: "https://ha.samuelgesang.de"
         target: "_blank"
+      - name: "Vorratskammer"
+        icon: "fa-solid fa-warehouse"
+        subtitle: "Fifo-Lagerhaltung"
+        url: "https://vorrat.samuelgesang.de"
+        target: "_blank"
   - name: "Proxmox"
     icon: "fas fa-server"
     items:
