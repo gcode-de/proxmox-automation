@@ -194,7 +194,7 @@ services:
         url: "https://grafana.homelab.local"
         target: "_blank"
       - name: "Podman Portainer"
-        icon: "fa-solid fa-docker"
+        icon: "fa-brands fa-docker"
         subtitle: "Podman PortainerDashboard"
         url: "https://192.168.68.194:9443"
         target: "_blank"
