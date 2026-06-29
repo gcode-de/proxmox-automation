@@ -125,7 +125,7 @@ services:
       - name: "HA Cloudflared"
         icon: "fa-brands fa-cloudflare"
         subtitle: "Cloudflare Tunnel"
-        url: "http://homeassistant.local:8123/hassio/addon/9074a9fa_cloudflared/config"
+        url: "http://homeassistant.local:8123/config/app/9074a9fa_cloudflared/config"
         target: "_blank"
       - name: "n8n"
         icon: "fa-solid fa-robot"
