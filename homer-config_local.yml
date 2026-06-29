@@ -84,6 +84,11 @@ services:
         subtitle: "Image Galerie"
         url: "http://192.168.68.195:8000"
         target: "_blank"
+      - name: "Kima-Hub"
+        icon: "fa-regular fa-circle-play"
+        subtitle: "Audio Streaming"
+        url: "http://192.168.68.197:3030"
+        target: "_blank"
   - name: "Tools"
     icon: "fas fa-toolbox"
     items:

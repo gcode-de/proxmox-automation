@@ -15,6 +15,6 @@ nfs_mounts:
     opts: "defaults,_netdev,noatime"
 
   - name: "docker"
-    src: "/volume2/Docker"
+    src: "/volume1/Docker"
     path: "/mnt/nas/Docker"
     opts: "defaults,_netdev,noatime"

@@ -79,6 +79,11 @@ services:
         subtitle: "Image Galerie"
         url: "http://galerie.samuelgesang.de"
         target: "_blank"
+      - name: "Kima-Hub"
+        icon: "fa-regular fa-circle-play"
+        subtitle: "Audio Streaming"
+        url: "http://kima.samuelgesang.de"
+        target: "_blank"
   - name: "Tools"
     icon: "fas fa-toolbox"
     items:
