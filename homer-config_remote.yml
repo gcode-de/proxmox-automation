@@ -5,6 +5,11 @@ logo: "logo.png"
 # icon: "fas fa-skull-crossbones" # Optional icon
 
 header: true
+links:
+  - name: "Homer Lokal"
+    icon: "fas fa-house"
+    url: "http://192.168.68.248:8010"
+    target: "_blank"
 footer: false
 
 # Optional theme customization

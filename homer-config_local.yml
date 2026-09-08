@@ -5,6 +5,11 @@ logo: "logo.png"
 # icon: "fas fa-skull-crossbones" # Optional icon
 
 header: true
+links:
+  - name: "Homer Remote"
+    icon: "fas fa-globe"
+    url: "https://lab.samuelgesang.de"
+    target: "_blank"
 footer: false
 
 # Optional theme customization
