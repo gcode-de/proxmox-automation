@@ -97,6 +97,11 @@ services:
   - name: "Tools"
     icon: "fas fa-toolbox"
     items:
+      - name: "Hermes Dashboard"
+        icon: "fa-solid fa-gauge-high"
+        subtitle: "Dashboard"
+        url: "http://localhost:9119"
+        target: "_blank"
       - name: "Uptime Kuma"
         icon: "fa-solid fa-heart-pulse"
         subtitle: "Monitoring + Alerts"
