@@ -21,13 +21,13 @@
       loop_control:
         label: "{{ item.name }}"
 
-    - name: Configure NFS mounts in fstab and mount
+    - name: Configure NFS mounts in fstab
       ansible.posix.mount:
         path: "{{ item.path }}"
         src: "{{ nas_ip }}:{{ item.src }}"
         fstype: nfs
         opts: "{{ item.opts | default(nfs_default_mount_opts) }}"
-        state: mounted
+        state: present
         dump: 0
         passno: 0
       loop: "{{ configured_nfs_mounts }}"
@@ -35,10 +35,40 @@
         label: "{{ item.name }}"
       notify: Reload systemd configuration
 
-    - name: Verify mounts are accessible
+    - name: Check active NFS mounts
       ansible.builtin.command:
         argv:
           - findmnt
+          - --noheadings
+          - --mountpoint
+          - "{{ item.path }}"
+      loop: "{{ configured_nfs_mounts }}"
+      loop_control:
+        label: "{{ item.name }}"
+      register: active_nfs_mounts
+      changed_when: false
+      failed_when: false
+      check_mode: false
+
+    - name: Start inactive NFS mounts
+      ansible.posix.mount:
+        path: "{{ item.item.path }}"
+        src: "{{ nas_ip }}:{{ item.item.src }}"
+        fstype: nfs
+        opts: "{{ item.item.opts | default(nfs_default_mount_opts) }}"
+        state: mounted
+        dump: 0
+        passno: 0
+      when: item.rc != 0
+      loop: "{{ active_nfs_mounts.results }}"
+      loop_control:
+        label: "{{ item.item.name }}"
+
+    - name: Verify NFS mount attempts
+      ansible.builtin.command:
+        argv:
+          - findmnt
+          - --noheadings
           - --mountpoint
           - "{{ item.path }}"
       loop: "{{ configured_nfs_mounts }}"
@@ -46,6 +76,18 @@
         label: "{{ item.name }}"
       register: mount_check
       changed_when: false
+      failed_when: false
+      check_mode: false
+
+    - name: Report NFS mounts still waiting for the NAS
+      ansible.builtin.debug:
+        msg: >-
+          {{ item.item.path }} is not mounted yet. mount.nfs continues retrying
+          in the background until the NAS becomes available.
+      when: item.rc != 0
+      loop: "{{ mount_check.results }}"
+      loop_control:
+        label: "{{ item.item.name }}"
 
     - name: Read local storage configuration
       ansible.builtin.command:

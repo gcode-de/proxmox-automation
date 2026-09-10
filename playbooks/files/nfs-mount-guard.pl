@@ -23,12 +23,11 @@ while (my $line = <$config_fh>) {
     open(my $findmnt_fh, '-|', '/usr/bin/findmnt', '-n', '-o', 'FSTYPE', '--target', $source)
         or die "NFS mount guard: cannot execute findmnt: $!\n";
 
-    my $fstype = <$findmnt_fh> // '';
+    my @fstypes = <$findmnt_fh>;
     close($findmnt_fh);
-    chomp($fstype);
 
     die "NFS mount guard: $source for CT $vmid is not backed by NFS; start aborted\n"
-        unless $fstype =~ /^nfs(?:4)?$/;
+        unless grep { /^nfs(?:4)?\s*$/ } @fstypes;
 }
 
 close($config_fh);
