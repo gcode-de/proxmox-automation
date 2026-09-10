@@ -200,7 +200,6 @@
       ansible.builtin.systemd_service:
         name: pve-nfs-guest-retry.timer
         enabled: true
-        state: started
       when:
         - nfs_guarded_cts | length > 0
         - not ansible_check_mode
