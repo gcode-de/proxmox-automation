@@ -1,0 +1,6 @@
+---
+# Preserve the currently used NFS protocol on pve1.
+nfs_default_mount_opts: "defaults,vers=3,_netdev,bg,retry=10000,nofail,noatime"
+
+nfs_guarded_cts:
+  - 102

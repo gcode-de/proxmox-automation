@@ -54,5 +54,18 @@ Add mounts required on every node to `nfs_mounts` in
 `inventory/group_vars/proxmox_cluster.yml`. Add node-specific mounts to
 `nfs_host_mounts` in `inventory/host_vars/<hostname>.yml`.
 
-The default mount options use `nofail` and a 30-second systemd mount timeout,
-so a temporarily unavailable NAS does not prevent a Proxmox node from booting.
+The default mount options use `nofail` and NFS background retries. A locked or
+temporarily unavailable NAS therefore does not prevent a Proxmox node from
+booting. NFS retries for up to 10,000 minutes and mounts the shares after the
+NAS becomes available.
+
+## Protecting NAS-dependent containers
+
+Add NAS-dependent container IDs to `nfs_guarded_cts` in the corresponding
+`inventory/host_vars/<hostname>.yml`. The playbook installs a pre-start hook
+which refuses to start a guarded CT while one of its `/mnt/nas` bind-mount
+sources is not backed by NFS.
+
+An enabled systemd timer retries guarded `onboot: 1` containers once per minute.
+It stops retrying after all guarded containers are running and is activated
+again automatically on the next host boot. Currently CT 102 on pve1 is guarded.

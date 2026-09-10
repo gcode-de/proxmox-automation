@@ -1,0 +1,31 @@
+#!/bin/sh
+
+set -u
+
+pending=0
+
+for vmid in {{ nfs_guarded_cts | join(' ') }}; do
+    if ! config="$(pct config "$vmid" 2>/dev/null)"; then
+        pending=1
+        continue
+    fi
+
+    # Do not override an intentional onboot=0 setting.
+    printf '%s\n' "$config" | grep -q '^onboot: 1$' || continue
+
+    if pct status "$vmid" 2>/dev/null | grep -q 'status: running'; then
+        continue
+    fi
+
+    logger -t pve-nfs-guest-retry "Retrying start of CT $vmid"
+    if ! pct start "$vmid"; then
+        pending=1
+    fi
+done
+
+if [ "$pending" -eq 0 ]; then
+    # Keep the timer enabled for the next boot, but stop retrying now.
+    systemctl stop --no-block pve-nfs-guest-retry.timer || true
+fi
+
+exit 0

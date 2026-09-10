@@ -1,0 +1,11 @@
+[Unit]
+Description=Retry Proxmox guests waiting for NFS mounts
+
+[Timer]
+OnBootSec=2min
+OnUnitInactiveSec=1min
+AccuracySec=10s
+Unit=pve-nfs-guest-retry.service
+
+[Install]
+WantedBy=timers.target

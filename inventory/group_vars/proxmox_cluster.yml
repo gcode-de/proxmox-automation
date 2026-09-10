@@ -2,9 +2,9 @@
 # NAS Configuration
 nas_ip: "192.168.68.126"
 
-# Keep booting even when the NAS is temporarily unavailable. The explicit
-# timeout avoids long boot delays without changing NFS' safe "hard" I/O mode.
-nfs_default_mount_opts: "defaults,_netdev,nofail,x-systemd.mount-timeout=30s,noatime"
+# Keep booting when the NAS is locked. mount.nfs keeps retrying in the
+# background for up to 10,000 minutes (nearly one week).
+nfs_default_mount_opts: "defaults,_netdev,bg,retry=10000,nofail,noatime"
 
 # NFS mount points required on every Proxmox node.
 nfs_mounts:
@@ -23,3 +23,7 @@ nfs_mounts:
 # Extend this list in inventory/host_vars/<hostname>.yml for mounts that are
 # only needed on selected nodes.
 nfs_host_mounts: []
+
+# CTs with bind mounts below /mnt/nas. A pre-start hook prevents them from
+# writing into the local directory underneath a missing NFS mount.
+nfs_guarded_cts: []

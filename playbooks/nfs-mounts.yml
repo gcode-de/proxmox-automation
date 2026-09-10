@@ -47,6 +47,122 @@
       register: mount_check
       changed_when: false
 
+    - name: Read local storage configuration
+      ansible.builtin.command:
+        argv:
+          - pvesh
+          - get
+          - /storage/local
+          - --output-format
+          - json
+      register: local_storage_config
+      changed_when: false
+      check_mode: false
+      run_once: true
+      delegate_to: pve1
+
+    - name: Enable snippets on local storage
+      ansible.builtin.command:
+        argv:
+          - pvesm
+          - set
+          - local
+          - --content
+          - "{{ (((local_storage_config.stdout | from_json).content.split(',')) + ['snippets']) | unique | join(',') }}"
+      when: "'snippets' not in (local_storage_config.stdout | from_json).content.split(',')"
+      run_once: true
+      delegate_to: pve1
+
+    - name: Create local snippets directory
+      ansible.builtin.file:
+        path: /var/lib/vz/snippets
+        state: directory
+        mode: "0755"
+
+    - name: Install NFS mount guard hook
+      ansible.builtin.copy:
+        src: files/nfs-mount-guard.pl
+        dest: /var/lib/vz/snippets/nfs-mount-guard.pl
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Read guarded CT configurations
+      ansible.builtin.command:
+        argv:
+          - pct
+          - config
+          - "{{ item }}"
+      loop: "{{ nfs_guarded_cts }}"
+      register: guarded_ct_configs
+      changed_when: false
+      check_mode: false
+
+    - name: Refuse to overwrite a different CT hook
+      ansible.builtin.assert:
+        that:
+          - >-
+            'hookscript:' not in item.stdout or
+            'hookscript: local:snippets/nfs-mount-guard.pl' in item.stdout
+        fail_msg: "CT {{ item.item }} already uses a different hookscript"
+      loop: "{{ guarded_ct_configs.results }}"
+      loop_control:
+        label: "{{ item.item }}"
+
+    - name: Attach NFS mount guard to CTs
+      ansible.builtin.command:
+        argv:
+          - pct
+          - set
+          - "{{ item.item }}"
+          - --hookscript
+          - local:snippets/nfs-mount-guard.pl
+      when: "'hookscript: local:snippets/nfs-mount-guard.pl' not in item.stdout"
+      loop: "{{ guarded_ct_configs.results }}"
+      loop_control:
+        label: "{{ item.item }}"
+
+    - name: Install NFS guest retry helper
+      ansible.builtin.template:
+        src: templates/pve-nfs-guest-retry.sh.j2
+        dest: /usr/local/sbin/pve-nfs-guest-retry
+        owner: root
+        group: root
+        mode: "0755"
+      when: nfs_guarded_cts | length > 0
+
+    - name: Install NFS guest retry service
+      ansible.builtin.copy:
+        src: files/pve-nfs-guest-retry.service
+        dest: /etc/systemd/system/pve-nfs-guest-retry.service
+        owner: root
+        group: root
+        mode: "0644"
+      when: nfs_guarded_cts | length > 0
+      notify: Reload systemd configuration
+
+    - name: Install NFS guest retry timer
+      ansible.builtin.copy:
+        src: files/pve-nfs-guest-retry.timer
+        dest: /etc/systemd/system/pve-nfs-guest-retry.timer
+        owner: root
+        group: root
+        mode: "0644"
+      when: nfs_guarded_cts | length > 0
+      notify: Reload systemd configuration
+
+    - name: Apply systemd unit changes before enabling retry timer
+      ansible.builtin.meta: flush_handlers
+
+    - name: Enable NFS guest retry timer
+      ansible.builtin.systemd_service:
+        name: pve-nfs-guest-retry.timer
+        enabled: true
+        state: started
+      when:
+        - nfs_guarded_cts | length > 0
+        - not ansible_check_mode
+
   handlers:
     - name: Reload systemd configuration
       ansible.builtin.systemd_service:

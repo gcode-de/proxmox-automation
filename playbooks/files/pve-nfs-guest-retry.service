@@ -1,0 +1,7 @@
+[Unit]
+Description=Retry Proxmox guests waiting for NFS mounts
+After=pve-guests.service network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/pve-nfs-guest-retry
