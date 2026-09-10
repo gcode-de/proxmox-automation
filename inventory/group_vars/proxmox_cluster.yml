@@ -2,19 +2,24 @@
 # NAS Configuration
 nas_ip: "192.168.68.126"
 
-# NFS Mount Points
+# Keep booting even when the NAS is temporarily unavailable. The explicit
+# timeout avoids long boot delays without changing NFS' safe "hard" I/O mode.
+nfs_default_mount_opts: "defaults,_netdev,nofail,x-systemd.mount-timeout=30s,noatime"
+
+# NFS mount points required on every Proxmox node.
 nfs_mounts:
   - name: "Privat"
     src: "/volume1/Privat"
     path: "/mnt/nas/Privat"
-    opts: "defaults,_netdev,noatime"
 
   - name: "scans"
     src: "/volume1/scans"
     path: "/mnt/nas/scans"
-    opts: "defaults,_netdev,noatime"
 
   - name: "docker"
     src: "/volume1/Docker"
     path: "/mnt/nas/Docker"
-    opts: "defaults,_netdev,noatime"
+
+# Extend this list in inventory/host_vars/<hostname>.yml for mounts that are
+# only needed on selected nodes.
+nfs_host_mounts: []

@@ -1,0 +1,13 @@
+---
+nfs_host_mounts:
+  - name: "audio"
+    src: "/volume1/Privat/AUDIO"
+    path: "/mnt/nas/Privat/AUDIO"
+
+  - name: "musik"
+    src: "/volume1/Privat/MUSIK"
+    path: "/mnt/nas/Privat/MUSIK"
+
+  - name: "wissen"
+    src: "/volume1/Privat/WISSEN"
+    path: "/mnt/nas/Privat/WISSEN"
