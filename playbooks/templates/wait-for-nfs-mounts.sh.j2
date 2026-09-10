@@ -1,0 +1,27 @@
+#!/bin/sh
+
+set -u
+
+previous_missing=""
+
+while :; do
+    missing=""
+
+{% for mountpoint in nfs_required_for_docker %}
+    if ! findmnt --noheadings --types nfs,nfs4 --mountpoint {{ mountpoint | quote }} >/dev/null 2>&1; then
+        missing="$missing {{ mountpoint }}"
+    fi
+{% endfor %}
+
+    if [ -z "$missing" ]; then
+        printf '%s\n' "All required NFS mounts are ready; Docker may start"
+        exit 0
+    fi
+
+    if [ "$missing" != "$previous_missing" ]; then
+        printf '%s\n' "Waiting for required NFS mounts:$missing"
+        previous_missing="$missing"
+    fi
+
+    sleep 15
+done

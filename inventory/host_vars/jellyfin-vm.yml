@@ -1,0 +1,17 @@
+---
+nfs_mounts:
+  - name: "films"
+    src: "/volume1/Filme"
+    path: "/mnt/nas/filme"
+
+  - name: "series"
+    src: "/volume1/Serien"
+    path: "/mnt/nas/serien"
+
+  - name: "backup"
+    src: "/volume1/Docker/jellyfin-vm-backups"
+    path: "/mnt/nfs-nas-backup"
+
+nfs_required_for_docker:
+  - "/mnt/nas/filme"
+  - "/mnt/nas/serien"

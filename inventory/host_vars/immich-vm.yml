@@ -1,0 +1,17 @@
+---
+nfs_mounts:
+  - name: "homes"
+    src: "/volume1/homes"
+    path: "/mnt/nas/homes"
+
+  - name: "private photos"
+    src: "/volume1/Backup/zzPrivat"
+    path: "/mnt/nas/privateFotos"
+
+  - name: "backup"
+    src: "/volume1/Docker/immich-vm-backups"
+    path: "/mnt/nfs-nas-backup"
+
+nfs_required_for_docker:
+  - "/mnt/nas/homes"
+  - "/mnt/nas/privateFotos"

@@ -69,3 +69,11 @@ sources is not backed by NFS.
 An enabled systemd timer retries guarded `onboot: 1` containers once per minute.
 It stops retrying after all guarded containers are running and is activated
 again automatically on the next host boot. Currently CT 102 on pve1 is guarded.
+
+## Protecting Docker services inside media VMs
+
+Run `ansible-playbook playbooks/media-vm-nfs.yml` to configure the NFS mounts
+inside the Jellyfin and Immich VMs. The playbook adds a systemd dependency that
+keeps Docker stopped while an application mount is missing. The VM itself stays
+online for Proxmox HA, and Docker starts automatically as soon as the encrypted
+NAS has been unlocked and all required NFS mounts are real NFS filesystems.

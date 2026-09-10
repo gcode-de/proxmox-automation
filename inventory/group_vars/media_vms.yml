@@ -1,0 +1,6 @@
+---
+nas_ip: "192.168.68.126"
+
+# Allow the VM to finish booting while mount.nfs keeps retrying in the
+# background until the encrypted NAS has been unlocked.
+nfs_default_mount_opts: "defaults,_netdev,bg,retry=10000,nofail,noatime"

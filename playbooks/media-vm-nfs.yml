@@ -1,0 +1,119 @@
+---
+- name: Protect media VM services from missing NFS mounts
+  hosts: media_vms
+  become: true
+
+  tasks:
+    - name: Validate NFS configuration
+      ansible.builtin.assert:
+        that:
+          - nfs_mounts | length > 0
+          - nfs_required_for_docker | length > 0
+          - nfs_required_for_docker | difference(nfs_mounts | map(attribute='path')) | length == 0
+
+    - name: Install NFS client packages
+      ansible.builtin.apt:
+        name: nfs-common
+        state: present
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Create NFS mount point directories
+      ansible.builtin.file:
+        path: "{{ item.path }}"
+        state: directory
+      loop: "{{ nfs_mounts }}"
+      loop_control:
+        label: "{{ item.name }}"
+
+    - name: Configure NFS mounts in fstab
+      ansible.posix.mount:
+        path: "{{ item.path }}"
+        src: "{{ nas_ip }}:{{ item.src }}"
+        fstype: nfs
+        opts: "{{ item.opts | default(nfs_default_mount_opts) }}"
+        state: present
+        dump: 0
+        passno: 0
+      loop: "{{ nfs_mounts }}"
+      loop_control:
+        label: "{{ item.name }}"
+      notify: Reload systemd configuration
+
+    - name: Check active NFS mounts
+      ansible.builtin.command:
+        argv:
+          - findmnt
+          - --noheadings
+          - --types
+          - nfs,nfs4
+          - --mountpoint
+          - "{{ item.path }}"
+      loop: "{{ nfs_mounts }}"
+      loop_control:
+        label: "{{ item.name }}"
+      register: active_nfs_mounts
+      changed_when: false
+      failed_when: false
+      check_mode: false
+
+    - name: Start inactive NFS mounts
+      ansible.posix.mount:
+        path: "{{ item.item.path }}"
+        src: "{{ nas_ip }}:{{ item.item.src }}"
+        fstype: nfs
+        opts: "{{ item.item.opts | default(nfs_default_mount_opts) }}"
+        state: mounted
+        dump: 0
+        passno: 0
+      when: item.rc != 0
+      loop: "{{ active_nfs_mounts.results }}"
+      loop_control:
+        label: "{{ item.item.name }}"
+
+    - name: Install NFS readiness helper
+      ansible.builtin.template:
+        src: templates/wait-for-nfs-mounts.sh.j2
+        dest: /usr/local/sbin/wait-for-nfs-mounts
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Install NFS readiness service
+      ansible.builtin.copy:
+        src: files/nfs-ready-for-docker.service
+        dest: /etc/systemd/system/nfs-ready-for-docker.service
+        owner: root
+        group: root
+        mode: "0644"
+      notify: Reload systemd configuration
+
+    - name: Create Docker drop-in directory
+      ansible.builtin.file:
+        path: /etc/systemd/system/docker.service.d
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Make Docker wait for required NFS mounts
+      ansible.builtin.copy:
+        src: files/docker-nfs-ready.conf
+        dest: /etc/systemd/system/docker.service.d/nfs-ready.conf
+        owner: root
+        group: root
+        mode: "0644"
+      notify: Reload systemd configuration
+
+    - name: Apply systemd unit changes
+      ansible.builtin.meta: flush_handlers
+
+    - name: Verify current NFS readiness
+      ansible.builtin.command: /usr/local/sbin/wait-for-nfs-mounts
+      changed_when: false
+      when: not ansible_check_mode
+
+  handlers:
+    - name: Reload systemd configuration
+      ansible.builtin.systemd_service:
+        daemon_reload: true
