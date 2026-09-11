@@ -77,3 +77,5 @@ inside the Jellyfin and Immich VMs. The playbook adds a systemd dependency that
 keeps Docker stopped while an application mount is missing. The VM itself stays
 online for Proxmox HA, and Docker starts automatically as soon as the encrypted
 NAS has been unlocked and all required NFS mounts are real NFS filesystems.
+The playbook also disables the incompatible `systemd-networkd-wait-online`
+service because these VMs use ifupdown for their static network configuration.

@@ -11,6 +11,30 @@
           - nfs_required_for_docker | length > 0
           - nfs_required_for_docker | difference(nfs_mounts | map(attribute='path')) | length == 0
 
+    - name: Disable incompatible systemd-networkd wait service
+      ansible.builtin.systemd_service:
+        name: systemd-networkd-wait-online.service
+        enabled: false
+        state: stopped
+
+    - name: Disable unused WIDE DHCPv6 client
+      ansible.builtin.systemd_service:
+        name: wide-dhcpv6-client.service
+        enabled: false
+        state: stopped
+      when: disable_wide_dhcpv6_client | default(false)
+
+    - name: Clear obsolete network service failures
+      ansible.builtin.command:
+        argv:
+          - systemctl
+          - reset-failed
+          - systemd-networkd-wait-online.service
+          - wide-dhcpv6-client.service
+      changed_when: false
+      failed_when: false
+      when: not ansible_check_mode
+
     - name: Install NFS client packages
       ansible.builtin.apt:
         name: nfs-common

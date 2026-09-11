@@ -15,3 +15,5 @@ nfs_mounts:
 nfs_required_for_docker:
   - "/mnt/nas/filme"
   - "/mnt/nas/serien"
+
+disable_wide_dhcpv6_client: true
