@@ -1,0 +1,66 @@
+/* Source for the embedded stylesheet in both Homer YAML files.
+ * Color Font Awesome category/app icons only; not text, cards or images.
+ * App-level light/dark classes also cover auto-switching.
+ */
+body #app.light {
+  --hc-green: #238348;
+  --hc-purple: #8050b5;
+  --hc-orange: #b76413;
+  --hc-pink: #be4879;
+  --hc-turquoise: #14847c;
+  --hc-blue: #3478bd;
+  --hc-slate: #66758a;
+  --hc-coral: #c25847;
+}
+
+body #app.dark {
+  --hc-green: #69c995;
+  --hc-purple: #bd95eb;
+  --hc-orange: #efae60;
+  --hc-pink: #ec91b4;
+  --hc-turquoise: #59c7be;
+  --hc-blue: #7eb7ee;
+  --hc-slate: #a5b4c8;
+  --hc-coral: #ef9c8b;
+}
+
+#app .group-title > i.hc-icon-green,
+#app .card .media-left i.hc-icon-green {
+  color: var(--hc-green);
+}
+
+#app .group-title > i.hc-icon-purple,
+#app .card .media-left i.hc-icon-purple {
+  color: var(--hc-purple);
+}
+
+#app .group-title > i.hc-icon-orange,
+#app .card .media-left i.hc-icon-orange {
+  color: var(--hc-orange);
+}
+
+#app .group-title > i.hc-icon-pink,
+#app .card .media-left i.hc-icon-pink {
+  color: var(--hc-pink);
+}
+
+#app .group-title > i.hc-icon-turquoise,
+#app .card .media-left i.hc-icon-turquoise {
+  color: var(--hc-turquoise);
+}
+
+#app .group-title > i.hc-icon-blue,
+#app .card .media-left i.hc-icon-blue {
+  color: var(--hc-blue);
+}
+
+#app .group-title > i.hc-icon-slate,
+#app .card .media-left i.hc-icon-slate {
+  color: var(--hc-slate);
+}
+
+#app .group-title > i.hc-icon-coral,
+#app .card .media-left i.hc-icon-coral {
+  color: var(--hc-coral);
+}
+
