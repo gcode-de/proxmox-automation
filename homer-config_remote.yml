@@ -97,6 +97,11 @@ services:
   - name: "Tools"
     icon: "fas fa-toolbox"
     items:
+      - name: "Asset Tracker"
+        icon: "fa-solid fa-chart-line"
+        subtitle: "Portfolio + Vermögensübersicht"
+        url: "https://asset-tracker.samuelgesang.de"
+        target: "_blank"
       - name: "Uptime Kuma"
         icon: "fa-solid fa-heart-pulse"
         subtitle: "Monitoring + Alerts"
