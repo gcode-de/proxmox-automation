@@ -162,6 +162,11 @@ services:
         subtitle: "Container & Stacks verwalten"
         url: "https://portainer.samuelgesang.de"
         target: "_blank"
+      - name: "Aid Project Risk Screening"
+        icon: "fa-solid fa-chart-line hc-icon-slate"
+        subtitle: "Entwicklungshilfe & Projektrisiken"
+        url: "https://aid.samuelgesang.de"
+        target: "_blank"
   - name: "Netzwerk & Zugang"
     icon: "fa-solid fa-shield-halved hc-icon-coral"
     items:

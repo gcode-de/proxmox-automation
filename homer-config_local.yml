@@ -207,6 +207,11 @@ services:
         subtitle: "Podman-Container verwalten"
         url: "https://192.168.68.194:9443"
         target: "_blank"
+      - name: "Aid Project Risk Screening"
+        icon: "fa-solid fa-chart-line hc-icon-slate"
+        subtitle: "Entwicklungshilfe & Projektrisiken"
+        url: "http://192.168.68.194:4175"
+        target: "_blank"
   - name: "Netzwerk & Zugang"
     icon: "fa-solid fa-shield-halved hc-icon-coral"
     items:
