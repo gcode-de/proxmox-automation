@@ -64,6 +64,11 @@ services:
         subtitle: "Vorräte & Haltbarkeit"
         url: "https://vorrat.samuelgesang.de"
         target: "_blank"
+      - name: "Nachklang"
+        icon: "fa-solid fa-envelope-open-text hc-icon-green"
+        subtitle: "Letzte Worte & monatlicher Lebenscheck"
+        url: "https://nachklang.samuelgesang.de"
+        target: "_blank"
   - name: "Filme & Musik"
     icon: "fa-solid fa-film hc-icon-purple"
     items:
