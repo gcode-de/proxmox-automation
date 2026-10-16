@@ -1,0 +1,6 @@
+@auftragskompass host auftragskompass.samuelgesang.de
+handle @auftragskompass {
+	header Cache-Control "no-store"
+	header X-Robots-Tag "noindex, nofollow"
+	respond "AuftragsKompass wird eingerichtet. Die App-Anmeldung ist noch nicht freigegeben." 503
+}
