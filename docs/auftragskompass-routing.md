@@ -15,8 +15,9 @@ Wildcard-Serverblock auf CT 120, vor dessen abschließende 404-Antwort. Vor Änd
 die bestehende Datei sichern, die vollständige Konfiguration mit `/usr/local/bin/caddy-cloudflare` und Caddys
 vorhandener Umgebungsdatei prüfen und anschließend Caddy neu laden. Keine TLS-Secrets in Git.
 
-Der bestehende Cloudflare Tunnel auf CT 119 erhält diesen Ingress-Eintrag vor
-dem Catch-all; die DNS-Route wird mit der vorhandenen `cfhost`-Verwaltung angelegt:
+Der bestehende Cloudflare Tunnel hat zwei aktive Connectoren (CT 119 und CT 121).
+Beide benötigen diesen Ingress-Eintrag vor dem Catch-all. Die DNS-Route wird einmal
+mit der vorhandenen `cfhost`-Verwaltung angelegt:
 
 ```yaml
 - hostname: auftragskompass.samuelgesang.de
@@ -30,7 +31,10 @@ Die TLS-Prüfung bleibt aktiv. Der Servername und Host-Header sind erforderlich,
 weil Caddy über seine IP angesprochen wird und ein Zertifikat für die Domain nutzt.
 Tunnel-Konfiguration und Credentials verbleiben auf dem Host. Die vorhandene
 Verwaltung sichert und validiert die Konfiguration vor dem Neustart; keine Änderung
-an anderen Ingress-Einträgen.
+an anderen Ingress-Einträgen. `cfhost` aktualisiert derzeit nur CT 119. Deshalb muss
+die Regel auch auf CT 121 mit eigenem Backup und nativer Ingress-Validierung
+ergänzt werden; andernfalls liefert ein Teil der Anfragen weiterhin 404. Keine
+komplette Konfiguration zwischen Connectoren kopieren.
 
 ## Homer-Synchronisierung
 
