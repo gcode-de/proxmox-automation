@@ -76,7 +76,7 @@ services:
         target: "_blank"
       - name: "AuftragsKompass"
         icon: "fa-solid fa-compass hc-icon-green"
-        subtitle: "Fotobox-Aufträge · Einrichtung"
+        subtitle: "Fotobox-Aufträge · Testbetrieb"
         url: "https://auftragskompass.samuelgesang.de"
         target: "_blank"
   - name: "Filme & Musik"

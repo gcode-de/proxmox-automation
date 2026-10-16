@@ -5,10 +5,18 @@ HTTPS-Adresse: `https://auftragskompass.samuelgesang.de`.
 
 ## Stand des Testzugangs
 
-Der Zugang zeigt vorerst eine Einrichtungsnachricht mit HTTP 503 und `no-store`.
-Die App-Anmeldung ist noch nicht entschieden; es wird keine Verwaltungs-API
-veröffentlicht. Die Dashboard-Karte trägt entsprechend den Zusatz „Einrichtung“.
-Das ist noch keine laufende oder für Geschäftsdaten freigegebene App.
+Die Adresse führt seit 16.10.2026 auf die isolierte AuftragsKompass-Testinstallation
+in CT 114. Die App verwendet ihren eigenen Login per E-Mail oder Benutzername und
+Passwort. Zugangsdaten liegen ausschließlich privat außerhalb von Git.
+Die Dashboard-Karte trägt den Zusatz „Testbetrieb“; echte Kundendaten wurden nicht
+importiert. Passwortwechsel, Wiederherstellung und die vollständige Betriebsabnahme
+sind vor Produktivbetrieb noch offen.
+
+Caddy erreicht den Admin-Dienst auf `192.168.68.194:4177`. Eine eigene nftables-Regel
+auf dem Podman-Host erlaubt diesen Port vor DNAT ausschließlich von Caddy
+(`192.168.68.199`). API, Worker und Datenbank haben keine veröffentlichten Ports.
+Anmeldung mit beiden Kennungen, unbefugter API-Zugriff, CSRF und Logout wurden
+über TLS geprüft; die öffentliche Browser-Anmeldung funktioniert.
 
 Der [Caddy-Block](../files/caddy/auftragskompass.caddy) gehört in den bestehenden
 Wildcard-Serverblock auf CT 120, vor dessen abschließende 404-Antwort. Vor Änderungen
@@ -44,10 +52,16 @@ Die Quellen liegen in `homer-config_remote.yml` und `homer-config_local.yml` auf
 vorherige Konfiguration sichert. Der Remote-Homer läuft in CT 110, der lokale in
 CT 105; der jeweils aktuelle Proxmox-Knoten ist vor dem Aufruf zu prüfen.
 
-## Spätere App-Freigabe
+## Abnahme und weitere Freigabe
 
-Nach eingerichtetem und geprüftem App-Login den Caddy-Block gezielt auf den
-AuftragsKompass-Admin-Dienst umstellen. Datenbank und Worker erhalten keine
-öffentlichen Ports. Zuerst erlaubten und unerlaubten Zugriff über die HTTPS-Adresse
-testen; dann „Einrichtung“ auf den Dashboard-Karten entfernen. Ein Proxy-Login allein
-ersetzt keine in der App angemeldete Sitzung.
+Die Caddy-Konfiguration wurde vor dem gezielten Austausch der App-Route gesichert,
+mit dem vorhandenen Cloudflare-Binary validiert und neu geladen. Andere Routen und
+beide Cloudflare-Connectoren blieben unverändert. Der einmalige Bootstrap-Zugang
+wurde aus der installierten API-Konfiguration entfernt; Neustart und erneute
+Anmeldung ohne Bootstrap-Datei und -Secret wurden geprüft. Eine erste Datenbank-
+Sicherung liegt privat auf dem Host und mit geprüftem Hash auf dem Betreiberrechner.
+Dies ersetzt noch keine verschlüsselte, automatische Produktivsicherung.
+
+Ein Proxy-Login allein ersetzt keine in der App angemeldete Sitzung. Updates werden
+im [App-Repository](https://github.com/gcode-de/auftragskompass/tree/codex/local-runtime-ci)
+getestet und als bewusst gepinnte Docker-Hub-Images installiert.

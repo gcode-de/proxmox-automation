@@ -2,5 +2,5 @@
 handle @auftragskompass {
 	header Cache-Control "no-store"
 	header X-Robots-Tag "noindex, nofollow"
-	respond "AuftragsKompass wird eingerichtet. Die App-Anmeldung ist noch nicht freigegeben." 503
+	reverse_proxy 192.168.68.194:4177
 }
