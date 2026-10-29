@@ -105,6 +105,11 @@ services:
   - name: "Bücher & Hörbücher"
     icon: "fa-solid fa-book-open hc-icon-orange"
     items:
+      - name: "Offline-Wissen"
+        icon: "fa-solid fa-book-open hc-icon-orange"
+        subtitle: "Praktische Anleitungen, Khan Academy & Wikipedia"
+        url: "http://192.168.68.224:8080"
+        target: "_blank"
       - name: "Audiobookshelf"
         icon: "fa-solid fa-headphones hc-icon-orange"
         subtitle: "Hörbücher & Hörspiele"
